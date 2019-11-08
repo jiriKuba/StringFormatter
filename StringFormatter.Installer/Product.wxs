@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define StringFormatter_TargetDir=$(var.StringFormatter.TargetDir)?><?define StringFormatter.Wpf_TargetDir=$(var.StringFormatter.Wpf.TargetDir)?>
+	<Product Id="*" Name="StringFormatter" Language="1033" Version="0.6.3.0" Manufacturer="Jiri Kuba" UpgradeCode="eda54cbb-55e8-46d2-a101-380848f2c85a">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Icon Id="appIcon.ico" SourceFile="$(var.ProjectDir)appIcon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="appIcon.ico" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\license.rtf" /> <!-- licence enable -->
+    <UIRef Id="WixUI_Minimal" /> <!-- UI enable -->
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes"/>
+
+		<Feature Id="ProductFeature" Title="StringFormatter" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <!-- enable shortcuts -->
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="StringFormatter" />
+			</Directory>
+      <!-- enable shortcuts -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="StringFormatter"/>
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop"/>
+		</Directory>
+	</Fragment>
+
+  <!-- enable shortcuts -->
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="f45cde0d-3dd0-423a-9319-c2c056f0d595">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="StringFormatter" Description="StringFormatter" Target="[INSTALLFOLDER]StringFormatter.Wpf.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RemoveFolder Id="RemoveApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\StringFormatter" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="ApplicationShortcutDesktop" Guid="7b8a7f10-4eb8-4afe-8451-a000d58d9331">
+        <Shortcut Id="ApplicationDesktopShortcut" Name="StringFormatter" Description="StringFormatter" Target="[INSTALLFOLDER]StringFormatter.Wpf.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RemoveFolder Id="RemoveDesktopFolder" Directory="DesktopFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\StringFormatter" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<!-- <Component Id="ProductComponent"> -->
+				<!-- TODO: Insert files, registry keys, and other resources here. -->
+			<!-- </Component> -->
+			<Component Id="StringFormatter.dll" Guid="7f9e36d2-5370-449f-8fab-8f5143031c0b">
+			  <File Id="StringFormatter.dll" Name="StringFormatter.dll" Source="$(var.StringFormatter_TargetDir)StringFormatter.dll" />
+			</Component>
+			<Component Id="StringFormatter.Wpf.exe.config" Guid="95012be1-9de3-463d-a5c4-7a2431b23b67">
+			  <File Id="StringFormatter.Wpf.exe.config" Name="StringFormatter.Wpf.exe.config" Source="$(var.StringFormatter.Wpf_TargetDir)StringFormatter.Wpf.exe.config" />
+			</Component>
+			<Component Id="StringFormatter.Wpf.exe" Guid="dce5fee0-4496-4eaf-9165-0de3c8544c62">
+			  <File Id="StringFormatter.Wpf.exe" Name="StringFormatter.Wpf.exe" Source="$(var.StringFormatter.Wpf_TargetDir)StringFormatter.Wpf.exe" />
+			</Component>
+      <Component Id="ControlzEx.dll" Guid="ba89869d-322e-491d-8fee-180c84ad9f1e">
+        <File Id="ControlzEx.dll" Name="ControlzEx.dll" Source="$(var.StringFormatter.Wpf_TargetDir)ControlzEx.dll" />
+      </Component>
+      <Component Id="MahApps.Metro.dll" Guid="d0fcc582-5745-4d0f-af6f-20bef29a4780">
+        <File Id="MahApps.Metro.dll" Name="MahApps.Metro.dll" Source="$(var.StringFormatter.Wpf_TargetDir)MahApps.Metro.dll" />
+      </Component>
+      <Component Id="MahApps.Metro.IconPacks.dll" Guid="5affe2e0-f679-4eb1-8353-3ec8ccd8f383">
+        <File Id="MahApps.Metro.IconPacks.dll" Name="MahApps.Metro.IconPacks.dll" Source="$(var.StringFormatter.Wpf_TargetDir)MahApps.Metro.IconPacks.dll" />
+      </Component>
+      <Component Id="Newtonsoft.Json.dll" Guid="8df44d55-90b7-4113-ac05-c037a2cccc10">
+        <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.StringFormatter.Wpf_TargetDir)Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="System.Windows.Interactivity.dll" Guid="b43dab86-a8cc-4a22-9bd0-9f009980db57">
+        <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.StringFormatter.Wpf_TargetDir)System.Windows.Interactivity.dll" />
+      </Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
