@@ -56,5 +56,47 @@ namespace StringFormatter.Tests.Services
             var result = service.Resolve("this {{1}} test", paramteres);
             Assert.AreEqual("this is test", result);
         }
+
+        [TestMethod]
+        public void Resolve_ShouldReturnTemplateWhenParameterNotExists()
+        {
+            var service = new FormattingResolver();
+            var paramteres = new Dictionary<Parameter, string>()
+            {
+                {
+                    new Parameter()
+                    {
+                        IgnoreCase = true,
+                        Name = "Parameter 1",
+                        ParameterType = ParameterType.Text,
+                        Replace = "{{1}}",
+                        Options = new List<Option>(),
+                    }, "is"
+                }
+            };
+            var result = service.Resolve("this {{2}} test", paramteres);
+            Assert.AreEqual("this {{2}} test", result);
+        }
+
+        [TestMethod]
+        public void Resolve_ShouldReturnTemplateWithReplacedSingleParamterWhenMultipleOccure()
+        {
+            var service = new FormattingResolver();
+            var paramteres = new Dictionary<Parameter, string>()
+            {
+                {
+                    new Parameter()
+                    {
+                        IgnoreCase = true,
+                        Name = "Parameter 1",
+                        ParameterType = ParameterType.Text,
+                        Replace = "{{1}}",
+                        Options = new List<Option>(),
+                    }, "is"
+                }
+            };
+            var result = service.Resolve("{{1}} this {{1}} test", paramteres);
+            Assert.AreEqual("is this is test", result);
+        }
     }
 }
