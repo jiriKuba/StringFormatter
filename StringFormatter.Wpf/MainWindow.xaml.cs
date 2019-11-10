@@ -1,4 +1,6 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using StringFormatter.Wpf.Events;
 using StringFormatter.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,16 @@ namespace StringFormatter.Wpf
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             await ((MainViewModel)DataContext).Load();
+        }
+
+        /// <summary>
+        /// Will show message dialog
+        /// </summary>
+        public async Task<MessageDialogResult> ShowMetroWindowMessage(object sender, MessageDialogEventArgs e)
+        {
+            return e.Settings == null 
+                ? await this.ShowMessageAsync(e.MessageHeader, e.MessageText, e.DialogStyle) 
+                : await this.ShowMessageAsync(e.MessageHeader, e.MessageText, e.DialogStyle, e.Settings);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace StringFormatter.Wpf.ViewModels
         public ProfilesViewModel(IProfilesProvider profilesProvider)
         {
             _ProfilesProvider = profilesProvider;
-            NavigateToFormatterPageCommand = new DelegateCommand(o => NavigateToFormatterPage(SelectedProfile?.Name));
+            NavigateToFormatterPageCommand = new DelegateCommand(async o => await NavigateToFormatterPage(SelectedProfile?.Name));
             SaveProfileCommand = new DelegateCommand(async o => await SaveProfile());
             ExportProfileCommand = new DelegateCommand(o => ExportProfile());
             AddProfileCommand = new DelegateCommand(o => AddProfile());
@@ -88,11 +88,16 @@ namespace StringFormatter.Wpf.ViewModels
             }
         }
         public ICommand NavigateToFormatterPageCommand { get; private set; }
-        private void NavigateToFormatterPage(object parameters)
+        private async Task NavigateToFormatterPage(object parameters)
         {
             if (Locator.MainViewModel.NavigateToFormatterPageCommand.CanExecute(parameters))
             {
-                Locator.MainViewModel.NavigateToFormatterPageCommand.Execute(parameters);
+                var dialogArgs = new Events.MessageDialogEventArgs("Confirm", "Do you really want to leave page without save?", MahApps.Metro.Controls.Dialogs.MessageDialogStyle.AffirmativeAndNegative);
+                var result = await App.Instance.AppMainWindow.ShowMetroWindowMessage(this, dialogArgs);
+                if (result == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Affirmative)
+                {
+                    Locator.MainViewModel.NavigateToFormatterPageCommand.Execute(parameters);
+                }
             }
         }
 
