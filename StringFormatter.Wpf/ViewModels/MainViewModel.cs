@@ -27,6 +27,7 @@ namespace StringFormatter.Wpf.ViewModels
             SwitchThemeCommand = new DelegateCommand(o => SwitchTheme());
             NavigateToProfilesPageCommand = new DelegateCommand(o => NavigateToProfilesPage(o?.ToString() ?? Locator.FormattersViewModel.SelectedFormatter?.Name));
             NavigateToFormatterPageCommand = new DelegateCommand(o => NavigateToFormatterPage(o?.ToString()));
+            NavigateToExternalSourcesPageCommand = new DelegateCommand(o => NavigateToExternalSourcesPage());
             
             _ProfilesProvider = Locator.ProfilesProvider;
         }
@@ -36,6 +37,7 @@ namespace StringFormatter.Wpf.ViewModels
         public ICommand SwitchThemeCommand { get; private set; }
         public ICommand NavigateToProfilesPageCommand { get; private set; }
         public ICommand NavigateToFormatterPageCommand { get; private set; }
+        public ICommand NavigateToExternalSourcesPageCommand { get; private set; }
 
         public async Task Load()
         {            
@@ -114,6 +116,12 @@ namespace StringFormatter.Wpf.ViewModels
             Locator.FormattersViewModel.SetProfilesModels(Profiles);
             Locator.FormattersViewModel.SelectFormatter(selectedFormatter);
             CurrentViewModel = Locator.FormattersViewModel;
+        }
+
+        private void NavigateToExternalSourcesPage()
+        {
+            Locator.ExternalSourcesViewModel.SetProfilesModels(Profiles);
+            CurrentViewModel = Locator.ExternalSourcesViewModel;
         }
 
         private void SwitchTheme()

@@ -43,6 +43,7 @@ namespace StringFormatter.Wpf.ViewModels
         {
             _ProfilesProvider = profilesProvider;
             NavigateToFormatterPageCommand = new DelegateCommand(async o => await NavigateToFormatterPage(SelectedProfile?.Name));
+            NavigateToExternalSourcesPageCommand = new DelegateCommand(async o => await NavigateToExternalSourcesPage(null));
             SaveProfileCommand = new DelegateCommand(async o => await SaveProfile());
             ExportProfileCommand = new DelegateCommand(o => ExportProfile());
             AddProfileCommand = new DelegateCommand(o => AddProfile());
@@ -97,6 +98,20 @@ namespace StringFormatter.Wpf.ViewModels
                 if (result == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Affirmative)
                 {
                     Locator.MainViewModel.NavigateToFormatterPageCommand.Execute(parameters);
+                }
+            }
+        }
+
+        public ICommand NavigateToExternalSourcesPageCommand { get; private set; }
+        private async Task NavigateToExternalSourcesPage(object parameters)
+        {
+            if (Locator.MainViewModel.NavigateToExternalSourcesPageCommand.CanExecute(parameters))
+            {
+                var dialogArgs = new Events.MessageDialogEventArgs("Confirm", "Do you really want to leave page without save?", MahApps.Metro.Controls.Dialogs.MessageDialogStyle.AffirmativeAndNegative);
+                var result = await App.Instance.AppMainWindow.ShowMetroWindowMessage(this, dialogArgs);
+                if (result == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Affirmative)
+                {
+                    Locator.MainViewModel.NavigateToExternalSourcesPageCommand.Execute(parameters);
                 }
             }
         }

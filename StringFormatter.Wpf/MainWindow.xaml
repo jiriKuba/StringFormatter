@@ -24,6 +24,9 @@
         <DataTemplate DataType="{x:Type vm:ProfilesViewModel}">
             <views:ProfilesView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ExternalSourcesViewModel}">
+            <views:ExternalSourcesView />
+        </DataTemplate>
     </Window.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>

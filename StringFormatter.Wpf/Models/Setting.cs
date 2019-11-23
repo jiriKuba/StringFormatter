@@ -31,5 +31,10 @@ namespace StringFormatter.Wpf.Models
         /// Accent color name of the app theme
         /// </summary>
         public string AppAccentName { get; set; }
+
+        /// <summary>
+        /// External sources of profiles
+        /// </summary>
+        public List<ExternalSource> ExternalSources { get; set; }
     }
 }

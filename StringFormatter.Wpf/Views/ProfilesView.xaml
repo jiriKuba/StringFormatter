@@ -37,7 +37,7 @@
                             ItemsSource="{Binding Profiles}"
                             DisplayMemberPath="Name"
                             SelectedValue="{Binding SelectedProfile}"/>
-                
+
                 <Button Width="30" Height="30" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" Command="{Binding DeleteProfileCommand}" ToolTip="Delete profile">
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconModern Width="18" Height="18" Kind="Delete" />
@@ -45,9 +45,14 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button  Width="40" Height="40" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" Command="{Binding NavigateToExternalSourcesPageCommand}" ToolTip="Add external sources">
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconModern Width="18" Height="18" Kind="AddMultiple" />
+                    </StackPanel>
+                </Button>
                 <Button  Width="40" Height="40" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" Command="{Binding ExportProfileCommand}" ToolTip="Export profiles">
                     <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconModern Width="16" Height="16" Kind="InboxOut" />
+                        <iconPacks:PackIconModern Width="18" Height="18" Kind="InboxOut" />
                     </StackPanel>
                 </Button>
                 <Button  Width="50" Height="50" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" Command="{Binding SaveProfileCommand}" ToolTip="Save profiles">
@@ -163,7 +168,7 @@
 
                                     <!--options-->
                                     <TextBlock Grid.Row="5" Visibility="{Binding OptionsVisibility}">Options:</TextBlock>
-                                    <DataGrid Grid.Row="5" Height="100" Grid.Column="1" Visibility="{Binding OptionsVisibility}"
+                                    <DataGrid Grid.Row="5" Height="200" Grid.Column="1" Visibility="{Binding OptionsVisibility}"
                                               CanUserAddRows="False"
                                               AutoGenerateColumns="True"
                                               CanUserDeleteRows="False"

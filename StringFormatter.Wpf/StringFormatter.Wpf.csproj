@@ -95,6 +95,7 @@
     <Compile Include="Utils\InverseBooleanConverter.cs" />
     <Compile Include="Utils\DelegateCommand.cs" />
     <Compile Include="ViewModels\BaseParameterViewModel.cs" />
+    <Compile Include="ViewModels\ExternalSourcesViewModel.cs" />
     <Compile Include="ViewModels\FormatterParameterViewModel.cs" />
     <Compile Include="ViewModels\FormattersViewModel.cs" />
     <Compile Include="ViewModels\FormatterViewModel.cs" />
@@ -104,6 +105,9 @@
     <Compile Include="ViewModels\ProfilesViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModel.cs" />
+    <Compile Include="Views\ExternalSourcesView.xaml.cs">
+      <DependentUpon>ExternalSourcesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FormatterView.xaml.cs">
       <DependentUpon>FormatterView.xaml</DependentUpon>
     </Compile>
@@ -123,6 +127,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ExternalSourcesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FormatterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

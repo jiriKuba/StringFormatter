@@ -1,4 +1,5 @@
-﻿using StringFormatter.Wpf.Models;
+﻿using StringFormatter.Models;
+using StringFormatter.Wpf.Models;
 using StringFormatter.Wpf.Utils;
 using System;
 using System.Collections.Generic;
@@ -76,6 +77,19 @@ namespace StringFormatter.Wpf.ViewModels
             {
                 _model.AppAccentName = value;
                 RisePropertyChange(nameof(AppAccentName));
+            }
+        }
+
+        /// <summary>
+        /// External sources of profiles
+        /// </summary>
+        public List<ExternalSource> ExternalSources 
+        {
+            get => _model.ExternalSources;
+            set
+            {
+                _model.ExternalSources = value;
+                RisePropertyChange(nameof(ExternalSources));
             }
         }
     }

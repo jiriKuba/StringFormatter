@@ -171,5 +171,18 @@ namespace StringFormatter.Wpf
                 return _SettingViewModel;
             }
         }
+
+        private static ExternalSourcesViewModel _ExternalSourcesViewModel;
+        public static ExternalSourcesViewModel ExternalSourcesViewModel
+        {
+            get
+            {
+                if (_ExternalSourcesViewModel == null)
+                {
+                    _ExternalSourcesViewModel = new ExternalSourcesViewModel(SettingViewModel);
+                }
+                return _ExternalSourcesViewModel;
+            }
+        }
     }
 }
