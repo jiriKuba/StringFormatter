@@ -17,9 +17,13 @@ namespace StringFormatter.Wpf.ViewModels
     public class ExternalSourcesViewModel : BaseViewModel, IPage
     {
         private readonly SettingViewModel _setting;
-        public ExternalSourcesViewModel(SettingViewModel setting)
+        private readonly IProfilesProvider _profilesProvider;
+        public ExternalSourcesViewModel(SettingViewModel setting, IProfilesProvider profilesProvider)
         {
             _setting = setting;
+            _profilesProvider = profilesProvider;
+
+            ExternalSourcesProfiles = new Dictionary<Guid, List<Profile>>();
 
             if (_setting.ExternalSources == null)
             {
@@ -29,7 +33,7 @@ namespace StringFormatter.Wpf.ViewModels
             _ExternalSources = new BindingList<ExternalSource>();
 
             NavigateToProfilesPageCommand = new DelegateCommand(async o => await NavigateToProfilesPage(null));
-            SaveSourcesCommand = new DelegateCommand(o => SaveSources());
+            SaveSourcesCommand = new DelegateCommand(async o => await SaveSources());
             AddNewExternalSourceCommand = new DelegateCommand(o => AddNewExternalSource());
             DeleteSourceCommand = new DelegateCommand(o => DeleteSource(o), c => { return c is Guid id && ExternalSources.Any(x => x.Id == id); });
         }
@@ -92,6 +96,18 @@ namespace StringFormatter.Wpf.ViewModels
             }
         }
 
+        public Dictionary<Guid, List<Profile>> ExternalSourcesProfiles { get; private set; }
+
+        /// <summary>
+        /// Will load external profiles
+        /// </summary>
+        public async Task<bool> LoadExternalSourcesProfiles()
+        {
+            ExternalSourcesProfiles.Clear();
+            ExternalSourcesProfiles = await _profilesProvider.LoadExternalSourcesProfiles(_setting.ExternalSources);
+            return true;
+        }
+
         public ICommand NavigateToProfilesPageCommand { get; private set; }
         private async Task NavigateToProfilesPage(object parameters)
         {
@@ -107,7 +123,7 @@ namespace StringFormatter.Wpf.ViewModels
         }
 
         public ICommand SaveSourcesCommand { get; private set; }
-        private void SaveSources()
+        private async Task SaveSources()
         {
             if (Locator.MainViewModel.NavigateToFormatterPageCommand.CanExecute(null))
             {
@@ -116,6 +132,19 @@ namespace StringFormatter.Wpf.ViewModels
 
                 // save settings
                 Locator.SettingsService.SaveSettings(_setting.GetModel());
+
+                // load new profiles
+                bool isLoaded = await LoadExternalSourcesProfiles();
+                if (!isLoaded)
+                {
+                    var dialogArgs = new Events.MessageDialogEventArgs("Error", "Cannot load external sources!", MahApps.Metro.Controls.Dialogs.MessageDialogStyle.Affirmative);
+                    var result = await App.Instance.AppMainWindow.ShowMetroWindowMessage(this, dialogArgs);
+                    if (result == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Affirmative)
+                    {
+                        Locator.MainViewModel.NavigateToFormatterPageCommand.Execute(null);
+                        return;
+                    }
+                }
 
                 // navigate to 
                 Locator.MainViewModel.NavigateToFormatterPageCommand.Execute(null);

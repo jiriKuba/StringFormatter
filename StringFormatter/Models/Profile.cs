@@ -7,6 +7,11 @@ namespace StringFormatter.Models
     public class Profile : ICloneable
     {
         /// <summary>
+        /// Id of profile
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Name of profile
         /// </summary>
         public string Name { get; set; }

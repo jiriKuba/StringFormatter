@@ -179,7 +179,7 @@ namespace StringFormatter.Wpf
             {
                 if (_ExternalSourcesViewModel == null)
                 {
-                    _ExternalSourcesViewModel = new ExternalSourcesViewModel(SettingViewModel);
+                    _ExternalSourcesViewModel = new ExternalSourcesViewModel(SettingViewModel, ProfilesProvider);
                 }
                 return _ExternalSourcesViewModel;
             }

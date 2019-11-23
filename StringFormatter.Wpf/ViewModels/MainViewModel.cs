@@ -45,6 +45,7 @@ namespace StringFormatter.Wpf.ViewModels
             {
                 IsLoading = true;
                 Profiles = await _ProfilesProvider.LoadProfilesAsync();
+                await Locator.ExternalSourcesViewModel.LoadExternalSourcesProfiles();
                 var isNewVersionAvailable = await Locator.UpdateService.IsNewVersionAvailableAsync();
                 OpenDownloadPageVisibility = isNewVersionAvailable ? Visibility.Visible : Visibility.Collapsed;
                 CurrentViewModel.SetProfilesModels(Profiles);

@@ -116,7 +116,16 @@ namespace StringFormatter.Wpf.ViewModels
                 Formatters.Clear();
             }
 
+            // set formatters by local profiles
             foreach (var profile in profiles)
+            {
+                Formatters.Add(new FormatterViewModel(profile.Clone() as Profile));
+            }
+
+            // set formatters by external profiles    
+            var externalProfiles = Locator.ExternalSourcesViewModel.ExternalSourcesProfiles
+                .SelectMany(x => x.Value);
+            foreach (var profile in externalProfiles)
             {
                 Formatters.Add(new FormatterViewModel(profile.Clone() as Profile));
             }

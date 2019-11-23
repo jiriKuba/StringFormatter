@@ -98,5 +98,68 @@ namespace StringFormatter.Tests.Services
             var result = service.Resolve("{{1}} this {{1}} test", paramteres);
             Assert.AreEqual("is this is test", result);
         }
+
+        [TestMethod]
+        public void Resolve_ShouldReturnNotIgnoreCaseTemplateWithoutReplacedTextWhenCaseNotMatch()
+        {
+            var service = new FormattingResolver();
+            var paramteres = new Dictionary<Parameter, string>()
+            {
+                {
+                    new Parameter()
+                    {
+                        IgnoreCase = false,
+                        Name = "Parameter 1",
+                        ParameterType = ParameterType.Text,
+                        Replace = "{{T}}",
+                        Options = new List<Option>(),
+                    }, "is"
+                }
+            };
+            var result = service.Resolve("This {{t}} test", paramteres);
+            Assert.AreEqual("This {{t}} test", result);
+        }
+
+        [TestMethod]
+        public void Resolve_ShouldReturnNotIgnoreCaseTemplateWithReplacedTextWhenCaseMatch()
+        {
+            var service = new FormattingResolver();
+            var paramteres = new Dictionary<Parameter, string>()
+            {
+                {
+                    new Parameter()
+                    {
+                        IgnoreCase = false,
+                        Name = "Parameter 1",
+                        ParameterType = ParameterType.Text,
+                        Replace = "{{T}}",
+                        Options = new List<Option>(),
+                    }, "is"
+                }
+            };
+            var result = service.Resolve("This {{T}} test", paramteres);
+            Assert.AreEqual("This is test", result);
+        }
+
+        [TestMethod]
+        public void Resolve_ShouldReturnIgnoreCaseTemplateWithReplacedText()
+        {
+            var service = new FormattingResolver();
+            var paramteres = new Dictionary<Parameter, string>()
+            {
+                {
+                    new Parameter()
+                    {
+                        IgnoreCase = true,
+                        Name = "Parameter 1",
+                        ParameterType = ParameterType.Text,
+                        Replace = "{{T}}",
+                        Options = new List<Option>(),
+                    }, "is"
+                }
+            };
+            var result = service.Resolve("This {{t}} test", paramteres);
+            Assert.AreEqual("This is test", result);
+        }
     }
 }

@@ -22,5 +22,10 @@ namespace StringFormatter.Interfaces
         /// Will show save file dialog and save profiles to path
         /// </summary>
         void ExportProfiles(List<Profile> profiles);
+
+        /// <summary>
+        /// Returns profiles from external sources
+        /// </summary>
+        Task<Dictionary<Guid, List<Profile>>> LoadExternalSourcesProfiles(List<ExternalSource> sources);
     }
 }

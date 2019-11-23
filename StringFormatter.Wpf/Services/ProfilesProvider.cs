@@ -4,6 +4,7 @@ using StringFormatter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -63,6 +64,7 @@ namespace StringFormatter.Wpf.Services
             {
                 try
                 {
+                    EnsureProfileIds(profiles);
                     var data = new FormatterData() { Profiles = profiles };
                     EnsureAppDataFolderExists();
 
@@ -74,6 +76,20 @@ namespace StringFormatter.Wpf.Services
                     // nothing, log this maybe?
                 }                
             });
+        }
+
+        /// <summary>
+        /// Will generate id if empty guid
+        /// </summary>
+        private void EnsureProfileIds(List<Profile> profiles)
+        {
+            foreach (var profile in profiles)
+            {
+                if (profile.Id == Guid.Empty)
+                {
+                    profile.Id = Guid.NewGuid();
+                }
+            }
         }
 
         /// <summary>
@@ -98,6 +114,55 @@ namespace StringFormatter.Wpf.Services
             {
                 var data = new FormatterData() { Profiles = profiles };
                 System.IO.File.WriteAllText(dlg.FileName, JsonConvert.SerializeObject(data));
+            }
+        }
+
+        /// <summary>
+        /// Returns profiles from external sources
+        /// </summary>
+        public async Task<Dictionary<Guid, List<Profile>>> LoadExternalSourcesProfiles(List<ExternalSource> sources)
+        {
+            var result = new Dictionary<Guid, List<Profile>>();
+
+            if (sources == null || sources.Count == 0)
+            {
+                return result;
+            }
+
+            foreach (var source in sources)
+            {
+                result.Add(source.Id, new List<Profile>());
+                try
+                {
+                    switch (source.AddressType)
+                    {
+                        case Enums.AddressType.Web:
+                            var webJson = await DownloadStringAsync(source.Address);
+                            var webData = JsonConvert.DeserializeObject<FormatterData>(webJson);
+                            result[source.Id].AddRange(webData.Profiles);
+                            break;
+                        default: // Local
+                            var localJson = System.IO.File.ReadAllText(source.Address);
+                            var localData = JsonConvert.DeserializeObject<FormatterData>(localJson);
+                            result[source.Id].AddRange(localData.Profiles);
+                            break;
+                    }
+                }
+                catch
+                {
+                    // nothing
+                }
+
+            }
+
+            return result;
+        }
+
+        private Task<string> DownloadStringAsync(string address)
+        {
+            using (var client = new WebClient())
+            {
+                return client.DownloadStringTaskAsync(address);
             }
         }
     }
