@@ -51,6 +51,10 @@ namespace StringFormatter.Wpf
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            // set custom profiles path
+            Locator.ProfilesProvider.FormattersPath = e.Args?.Length > 0 ? e.Args[0] : null;
+
             var setting = Locator.SettingViewModel.GetModel();
             Locator.ThemeService.ChangeAppStyle(setting.AppAccentName, setting.AppThemeName);
         }

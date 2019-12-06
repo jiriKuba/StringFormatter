@@ -12,8 +12,17 @@ namespace StringFormatter.Wpf.Services
 {
     public class ProfilesProvider : Base.FileSystemService, IProfilesProvider
     {
+        /// <summary>
+        /// File path to formaters json
+        /// </summary>
+        public string FormattersPath { get; set; }
+
         private string GetProfilesPath()
         {
+            if (!string.IsNullOrEmpty(FormattersPath))
+            {
+                return FormattersPath;
+            }
             return $"{GetAppDataFolder()}formatterProfiles.json";
         }
 

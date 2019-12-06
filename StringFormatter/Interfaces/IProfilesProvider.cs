@@ -9,6 +9,11 @@ namespace StringFormatter.Interfaces
     public interface IProfilesProvider
     {
         /// <summary>
+        /// File path to formaters json
+        /// </summary>
+        string FormattersPath { get; set; }
+
+        /// <summary>
         /// Will load profiles from file
         /// </summary>
         Task<List<Profile>> LoadProfilesAsync();
