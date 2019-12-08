@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define StringFormatter_TargetDir=$(var.StringFormatter.TargetDir)?><?define StringFormatter.Wpf_TargetDir=$(var.StringFormatter.Wpf.TargetDir)?>
-	<Product Id="*" Name="StringFormatter" Language="1033" Version="0.6.4.0" Manufacturer="Jiri Kuba" UpgradeCode="eda54cbb-55e8-46d2-a101-380848f2c85a">
+	<Product Id="*" Name="StringFormatter" Language="1033" Version="0.6.5.0" Manufacturer="Jiri Kuba" UpgradeCode="eda54cbb-55e8-46d2-a101-380848f2c85a">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <Icon Id="appIcon.ico" SourceFile="$(var.ProjectDir)appIcon.ico" />
     <Property Id="ARPPRODUCTICON" Value="appIcon.ico" />
