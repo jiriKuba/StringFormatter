@@ -67,6 +67,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="150" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -77,13 +78,17 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center">Name of profile</TextBlock>
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedProfile.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Name of profile"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center">Template:</TextBlock>
-                <TextBox Grid.Row="2" Grid.ColumnSpan="2" Margin="10,0,0,0" 
+
+                <TextBlock Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center">Is command</TextBlock>
+                <CheckBox Grid.Row="1" Grid.Column="1" Height="25" HorizontalAlignment="Center" IsChecked="{Binding SelectedProfile.IsCommand}"/>
+
+                <TextBlock Grid.Row="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center">Template:</TextBlock>
+                <TextBox Grid.Row="3" Grid.ColumnSpan="2" Margin="10,0,0,0" 
                          TextWrapping="Wrap" AcceptsReturn="True"
                          Text="{Binding SelectedProfile.Template, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16">Profile parameters:</TextBlock>
+                <TextBlock Grid.Row="4" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16">Profile parameters:</TextBlock>
                 <ItemsControl   Margin="10,10,10,0"          
-                            Grid.ColumnSpan="2" Grid.Row="4"
+                            Grid.ColumnSpan="2" Grid.Row="5"
                             ItemsSource="{Binding SelectedProfile.Parameters}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

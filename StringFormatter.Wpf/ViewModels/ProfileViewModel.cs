@@ -51,6 +51,16 @@ namespace StringFormatter.Wpf.ViewModels
             }
         }
 
+        public bool IsCommand
+        {
+            get => _model.IsCommand;
+            set
+            {
+                _model.IsCommand = value;
+                RisePropertyChange(nameof(IsCommand));
+            }
+        }
+
         public ICommand AddParameterCommand { get; private set; }
         private void AddParameter(object parameter)
         {

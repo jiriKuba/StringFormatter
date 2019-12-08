@@ -22,6 +22,11 @@ namespace StringFormatter.Models
         public string Template { get; set; }
 
         /// <summary>
+        /// Indicates when profile can be process as CL command
+        /// </summary>
+        public bool IsCommand { get; set; }
+
+        /// <summary>
         /// Parameter list
         /// </summary>
         public List<Parameter> Parameters { get; set; }

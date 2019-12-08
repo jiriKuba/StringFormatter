@@ -85,13 +85,20 @@
                 <Button Width="30" Height="30" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Right"
                         Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" Command="{Binding CopyToClipboardCommand}" ToolTip="Copy to clipboard">
                     <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconModern Width="18" Height="18" Kind="Clipboard" />
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="Clipboard" />
                     </StackPanel>
                 </Button>
                 <Button Width="30" Height="30" Margin="0,0,35,0" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Right"
                         Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" Command="{Binding SaveAsCommand}" ToolTip="Save as">
                     <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconModern Width="18" Height="18" Kind="Save" />
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="Save" />
+                    </StackPanel>
+                </Button>
+
+                <Button Width="30" Height="30" Margin="10,0,0,0" Grid.Row="5" HorizontalAlignment="Left" Visibility="{Binding RunCommandVisibility}"
+                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" Command="{Binding RunCommand}" ToolTip="Run command">
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="ControlPlay" />
                     </StackPanel>
                 </Button>
             </Grid>

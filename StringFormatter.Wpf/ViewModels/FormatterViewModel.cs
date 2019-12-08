@@ -54,6 +54,16 @@ namespace StringFormatter.Wpf.ViewModels
             }
         }
 
+        public bool IsCommand
+        {
+            get => _model.IsCommand;
+            set
+            {
+                _model.IsCommand = value;
+                RisePropertyChange(nameof(IsCommand));
+            }
+        }
+
         public string Template
         {
             get => _model.Template;

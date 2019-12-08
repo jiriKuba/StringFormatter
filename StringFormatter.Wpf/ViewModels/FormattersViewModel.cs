@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StringFormatter.Wpf.ViewModels
@@ -34,7 +35,13 @@ namespace StringFormatter.Wpf.ViewModels
             {
                 _SelectedFormatter = value;
                 RisePropertyChange(nameof(SelectedFormatter));
+                RisePropertyChange(nameof(RunCommandVisibility));
             }
+        }
+
+        public Visibility RunCommandVisibility
+        {
+            get => (SelectedFormatter?.IsCommand ?? false) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private readonly IStorageService _StorageService;
@@ -46,6 +53,7 @@ namespace StringFormatter.Wpf.ViewModels
             ReloadCommand = new DelegateCommand(async o => await Reload());
             CopyToClipboardCommand = new DelegateCommand(o => CopyToClipboard());
             SaveAsCommand = new DelegateCommand(o => SaveResultAs());
+            RunCommand = new DelegateCommand(async o => await DoRunCommand());
 
             if (App.InDesignMode())
             {
@@ -102,6 +110,20 @@ namespace StringFormatter.Wpf.ViewModels
             if (!string.IsNullOrEmpty(path))
             {
                 _StorageService.SaveTextToFile(SelectedFormatter.Result, path);
+            }
+        }
+
+        public ICommand RunCommand { get; private set; }
+        private async Task DoRunCommand()
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("CMD.exe", "/c " + SelectedFormatter.Result);
+            }
+            catch (Exception ex)
+            {
+                var dialogArgs = new Events.MessageDialogEventArgs("Error", ex.Message, MahApps.Metro.Controls.Dialogs.MessageDialogStyle.Affirmative);
+                await App.Instance.AppMainWindow.ShowMetroWindowMessage(this, dialogArgs);
             }
         }
 
